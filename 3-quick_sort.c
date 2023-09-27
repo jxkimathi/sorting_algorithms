@@ -1,5 +1,8 @@
 #include "sort.h"
 
+void lumo_sort(int *array, size_t size, int left, int right);
+int lumo_part(int *array, size_t size, int left, int right);
+
 /**
  * swap - Swap two values
  * @a: first to swap
@@ -43,15 +46,31 @@ void lumo_sort(int *array, size_t size, int left, int right)
  * @right: ending index of the array
  */
 
-void lumo_part(int *array, size_t size, int left, int right)
+int lumo_part(int *array, size_t size, int left, int right)
 {
-	int part;
+	int *pivot, up, down;
 
-	if (right - left > 0)
+	pivot = array + right;
+
+	for (up = down = left; down < right; down++)
 	{
-		part = lumo_part(array, size, left, right);
-		lumo_sort(array, size, left, part - 1);
+		if (array[down] < *pivot)
+		{
+			if (up < down)
+			{
+				swap(array + down, array + up);
+				print_array(array, size);
+			}
+			up++;
+		}
 	}
+	if (array[up] > *pivot)
+	{
+		swap(array + up, pivot);
+		print_array(array, size);
+	}
+
+	return (up);
 }
 
 /**
